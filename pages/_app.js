@@ -1,7 +1,18 @@
-import '../styles/globals.css'
+import { ChakraProvider } from '@chakra-ui/react';
+import NavBar from '../components/navbar';
+import { UserContext } from '../lib/context';
+import { useUserData } from '../lib/hooks';
 
 function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+  const user = useUserData();
+  return (
+    <ChakraProvider>
+      <UserContext.Provider value={user}>
+        <NavBar />
+        <Component {...pageProps} />
+      </UserContext.Provider>
+    </ChakraProvider>
+  );
 }
 
-export default MyApp
+export default MyApp;
