@@ -1,62 +1,69 @@
 import {
   Box,
-  Stack,
+  LinkBox,
+  LinkOverlay,
   Image,
   Text,
   Heading,
-  Center,
+  Flex,
   Button,
 } from '@chakra-ui/react';
 import { useColorModeValue } from '@chakra-ui/color-mode';
+import Link from 'next/link';
 
-export default function Card() {
-  const propMock = {
-    title: 'Boost your Conversion Rate',
-    description:
-      'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt',
-    imgUrl:
-      'https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
-    smallText: 'best selling',
-  };
-  const { title, description, imgUrl, smallText } = propMock;
+export default function Card(props) {
+  const { title, description, imgUrl, smallText = '' } = props.course;
   return (
-    <Box
-      maxW={'400px'}
-      bg={useColorModeValue('white', 'gray.700')}
-      rounded="10px"
-      overflow="hidden"
-      boxShadow="dark-lg"
-      p={4}
-    >
-      <Box mb={4} position="relative">
-        <Image alt="blog image" src={imgUrl} />
-        {smallText ? (
-          <Text
-            position="absolute"
-            top="10px"
-            left="10px"
-            color="white"
-            bgColor="cyan.500"
-            rounded="full"
-            fontSize="xs"
-            py={2}
-            px={4}
-            textTransform="uppercase"
-            fontWeight="semibold"
+    <LinkBox>
+      <Link href="/" passHref>
+        <LinkOverlay>
+          <Flex
+            maxW={'400px'}
+            bg={useColorModeValue('white', 'gray.700')}
+            rounded="10px"
+            overflow="hidden"
+            boxShadow="dark-lg"
+            flexDirection="column"
+            p={4}
+            gridGap={2}
+            h="100%"
           >
-            {smallText}
-          </Text>
-        ) : null}
-      </Box>
-      <Stack spacing={4} mb={4}>
-        <Heading fontSize="large" textAlign="center" textTransform="uppercase">
-          {title}
-        </Heading>
-        <Text>{description}</Text>
-        <Button colorScheme={'green'} textTransform="uppercase">
-          Start
-        </Button>
-      </Stack>
-    </Box>
+            <Box mb={4} position="relative">
+              <Image alt="blog image" src={imgUrl} />
+              {smallText ? (
+                <Text
+                  position="absolute"
+                  top={4}
+                  left={4}
+                  color="white"
+                  bgColor="red.500"
+                  rounded="full"
+                  fontSize={11}
+                  py={1}
+                  px={2}
+                  textTransform="uppercase"
+                  fontWeight="semibold"
+                >
+                  {smallText}
+                </Text>
+              ) : null}
+            </Box>
+            <Heading
+              fontSize="large"
+              textAlign="center"
+              textTransform="uppercase"
+            >
+              {title}
+            </Heading>
+            <Text textAlign="justify" mb={4}>
+              {description}
+            </Text>
+            <Button colorScheme={'green'} textTransform="uppercase" mt={'auto'}>
+              Start
+            </Button>
+          </Flex>
+        </LinkOverlay>
+      </Link>
+    </LinkBox>
   );
 }

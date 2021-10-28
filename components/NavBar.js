@@ -25,7 +25,6 @@ import { auth } from '../lib/firebase';
 
 function SignInButton() {
   const user = useContext(UserContext);
-  console.log(user);
   const render = !user ? (
     <Link href="/signin" passHref>
       <Button colorScheme="orange">Sign In</Button>
@@ -93,10 +92,10 @@ export default function NavBar() {
 
         <Stack display={hideOnMobile} direction="row" spacing={4}>
           <Link href="/" passHref>
-            <Box as={Button}>Home</Box>
+            <Button variant="ghost">Home</Button>
           </Link>
           <Link href="/courses" passHref>
-            <Box as={Button}>Courses</Box>
+            <Button variant="ghost">Courses</Button>
           </Link>
         </Stack>
 
