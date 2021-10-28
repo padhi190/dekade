@@ -9,34 +9,15 @@ import {
 import Card from '../../components/Card';
 import Testimony from '../../components/Testimony';
 
-export function getStaticProps() {
-  const courses = [
-    {
-      title: '7 Kesalahan WO',
-      description:
-        'Di webinar ini, anda akan mempelajari 7 kesalahan WO yang dapat menghancurkan reputasi WO anda. Bangun reputasi WO anda dengan menghindari 7 kesalahan ini.',
-      imgUrl: 'wsw1.png',
-      smallText: 'best selling',
-    },
-    {
-      title: 'Rahasia New Normal Wedding dengan 3 Crew',
-      description:
-        'Idealnya berapa orang sih untuk handle intimate wedding ini?? Dapatkan jawabannya disini!',
-      imgUrl: 'wsw2.png',
-    },
-    {
-      title: '7 Langkah Mendapatkan Klien Pertama',
-      description:
-        'Kalo mau umur bisnis WO nya panjang dan sukses, ikuti deh 7 Langkah Jitu Mendapatkan Klien Pertama',
-      imgUrl: 'wsw3.png',
-    },
-    {
-      title: '9 Langkah Mendapatkan Klien Pertama',
-      description:
-        'Kalo mau umur bisnis WO nya panjang dan sukses, ikuti deh 7 Langkah Jitu Mendapatkan Klien Pertama',
-      imgUrl: 'wsw3.png',
-    },
-  ];
+import { firestore } from '../../lib/firebase';
+import { collection, getDocs, doc, getDoc } from '@firebase/firestore';
+
+export async function getStaticProps() {
+  const courseRef = collection(firestore, 'courses');
+  const courseColl = await getDocs(courseRef);
+  const courses = [];
+  courseColl.forEach((course) => courses.push(course.data()));
+  console.log(courses);
 
   const testimonies = [
     {
@@ -64,7 +45,7 @@ export default function Courses(props) {
   const { courses, testimonies } = props;
   // console.log(props);
   return (
-    <Box pt={20} px={4} pb={100}>
+    <Box pt={20} maxW="1300px" px={[2, 2, 4, 4]} pb={100} mx="auto">
       <Heading fontSize={'2xl'} mb={4}>
         Watch All Courses
       </Heading>
@@ -75,7 +56,7 @@ export default function Courses(props) {
 
       <Grid
         templateColumns={['1fr', '1fr', 'repeat(2, 1fr)', 'repeat(3, 1fr)']}
-        gap={2}
+        gap={6}
         rowGap={10}
         justifyItems="center"
         align="center"

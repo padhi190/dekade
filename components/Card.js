@@ -19,7 +19,7 @@ export default function Card(props) {
       <Link href="/" passHref>
         <LinkOverlay>
           <Flex
-            maxW={'400px'}
+            // maxW={'400px'}
             bg={useColorModeValue('white', 'gray.700')}
             rounded="10px"
             overflow="hidden"
@@ -53,6 +53,7 @@ export default function Card(props) {
               fontSize="large"
               textAlign="center"
               textTransform="uppercase"
+              mb={4}
             >
               {title}
             </Heading>
