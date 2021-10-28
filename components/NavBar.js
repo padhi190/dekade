@@ -25,6 +25,7 @@ import { auth } from '../lib/firebase';
 
 function SignInButton() {
   const user = useContext(UserContext);
+  console.log(user);
   const render = !user ? (
     <Link href="/signin" passHref>
       <Button colorScheme="orange">Sign In</Button>
@@ -68,7 +69,15 @@ export default function NavBar() {
   const showOnMobile = ['flex', 'flex', 'none', 'none'];
 
   return (
-    <Box bg={useColorModeValue('gray.100', 'gray.900')} px={[2, 2, 20]}>
+    <Box
+      bg={useColorModeValue('gray.100', 'gray.900')}
+      px={[2, 2, 4, 4]}
+      position="fixed"
+      w="100%"
+      zIndex={10}
+      mb={6}
+      boxShadow="md"
+    >
       <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
         <IconButton
           size="lg"
@@ -78,15 +87,18 @@ export default function NavBar() {
         />
         <Link href="/" passHref>
           <Box as={Button} variant={'link'} display={hideOnMobile}>
-            <Image src="/logo.svg" alt="logo" height={120} />
+            <Image src="/logo.png" alt="logo" width={120} />
           </Box>
         </Link>
 
-        <Box display={hideOnMobile}>
-          <Link href="/signin" passHref>
+        <Stack display={hideOnMobile} direction="row" spacing={4}>
+          <Link href="/" passHref>
             <Box as={Button}>Home</Box>
           </Link>
-        </Box>
+          <Link href="/courses" passHref>
+            <Box as={Button}>Courses</Box>
+          </Link>
+        </Stack>
 
         <Flex alignItems={'center'} justifyContent="center">
           <Stack direction={'row'} spacing={7} align="center">
@@ -130,6 +142,16 @@ export default function NavBar() {
                 onClick={onClose}
               >
                 Home
+              </Box>
+            </Link>
+            <Link href="/courses" passHref>
+              <Box
+                as={Button}
+                w="100vw"
+                bgColor={darkBg[colorMode]}
+                onClick={onClose}
+              >
+                Courses
               </Box>
             </Link>
             <MobileSignIn onClick={onClose} />

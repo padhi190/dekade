@@ -20,49 +20,43 @@ export default function Card() {
   };
   const { title, description, imgUrl, smallText } = propMock;
   return (
-    <Center py={6}>
-      <Box
-        maxW={'500px'}
-        bg={useColorModeValue('white', 'gray.700')}
-        rounded="10px"
-        overflow="hidden"
-        boxShadow="2xl"
-        p={4}
-      >
-        <Box mb={4} position="relative">
-          <Image alt="blog image" src={imgUrl} />
-          {smallText ? (
-            <Text
-              position="absolute"
-              top="10px"
-              left="10px"
-              color="white"
-              bgColor="cyan.500"
-              rounded="full"
-              fontSize="xs"
-              py={2}
-              px={4}
-              textTransform="uppercase"
-              fontWeight="semibold"
-            >
-              {smallText}
-            </Text>
-          ) : null}
-        </Box>
-        <Stack spacing={4} mb={4}>
-          <Heading
-            fontSize="large"
-            textAlign="center"
+    <Box
+      maxW={'400px'}
+      bg={useColorModeValue('white', 'gray.700')}
+      rounded="10px"
+      overflow="hidden"
+      boxShadow="dark-lg"
+      p={4}
+    >
+      <Box mb={4} position="relative">
+        <Image alt="blog image" src={imgUrl} />
+        {smallText ? (
+          <Text
+            position="absolute"
+            top="10px"
+            left="10px"
+            color="white"
+            bgColor="cyan.500"
+            rounded="full"
+            fontSize="xs"
+            py={2}
+            px={4}
             textTransform="uppercase"
+            fontWeight="semibold"
           >
-            {title}
-          </Heading>
-          <Text>{description}</Text>
-          <Button colorScheme={'green'} textTransform="uppercase">
-            Start
-          </Button>
-        </Stack>
+            {smallText}
+          </Text>
+        ) : null}
       </Box>
-    </Center>
+      <Stack spacing={4} mb={4}>
+        <Heading fontSize="large" textAlign="center" textTransform="uppercase">
+          {title}
+        </Heading>
+        <Text>{description}</Text>
+        <Button colorScheme={'green'} textTransform="uppercase">
+          Start
+        </Button>
+      </Stack>
+    </Box>
   );
 }
