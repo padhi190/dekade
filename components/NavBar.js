@@ -25,7 +25,6 @@ import { auth } from '../lib/firebase';
 
 function SignInButton() {
   const user = useContext(UserContext);
-  console.log(user);
   const render = !user ? (
     <Link href="/signin" passHref>
       <Button colorScheme="orange">Sign In</Button>
@@ -44,7 +43,24 @@ function SignInButton() {
 
   return render;
 }
+const darkBg = {
+  light: 'gray.100',
+  dark: 'gray.900',
+};
 
+function MobileSignIn({ onClick }) {
+  const user = useContext(UserContext);
+  const { colorMode } = useColorMode();
+  const render = !user ? (
+    <Link href="/signin" passHref>
+      <Box as={Button} w="100vw" bgColor={darkBg[colorMode]} onClick={onClick}>
+        Sign In
+      </Box>
+    </Link>
+  ) : null;
+
+  return render;
+}
 export default function NavBar() {
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onToggle, onClose } = useDisclosure();
@@ -85,7 +101,7 @@ export default function NavBar() {
       <Collapse in={isOpen}>
         <Flex
           w="100vw"
-          bgColor="gray.100"
+          bgColor={darkBg[colorMode]}
           zIndex={20}
           h="100vh"
           pos="fixed"
@@ -98,17 +114,25 @@ export default function NavBar() {
             icon={<CloseIcon />}
             alignSelf="flex-start"
             onClick={onClose}
+            bgColor={darkBg[colorMode]}
           />
-          <Flex flexDir="column" justifyContent="flex-start" align="center">
-            <Box as={Button} w="100vw">
-              Home
-            </Box>
-            <Box as={Button} w="100vw">
-              Home
-            </Box>
-            <Box as={Button} w="100vw">
-              Home
-            </Box>
+          <Flex
+            flexDir="column"
+            justifyContent="flex-start"
+            align="center"
+            bgColor={darkBg[colorMode]}
+          >
+            <Link href="/" passHref>
+              <Box
+                as={Button}
+                w="100vw"
+                bgColor={darkBg[colorMode]}
+                onClick={onClose}
+              >
+                Home
+              </Box>
+            </Link>
+            <MobileSignIn onClick={onClose} />
           </Flex>
         </Flex>
       </Collapse>
