@@ -7,6 +7,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import Card from '../../components/Card';
+import Testimony from '../../components/Testimony';
 
 export function getStaticProps() {
   const courses = [
@@ -37,14 +38,33 @@ export function getStaticProps() {
     },
   ];
 
+  const testimonies = [
+    {
+      text: 'Teh Andhan ngejelasinnya masuk akal semua sesuai realita di lapangan, bermanfaat bangettt walaupun kurang puas dengan dibatasi waktu. Semoga tth akang sehat sehat semua aminnn...',
+      author: 'Mia Tresna Handayani',
+      role: 'Mahakarya Organizer',
+      photoUrl:
+        'https://lh3.googleusercontent.com/a-/AOh14GgNuMOWefZkBdGB_8w4WKHoHqqKiPZzscTwPQrmdQ=s96-c',
+    },
+    {
+      text: 'Alhamdulillah teh Andhan selalu punya cara jitu untuk problematika di dunia per Wedding Organizer-an',
+      author: 'Isfihany Fida',
+      role: 'Katineung Wedding Organizer',
+      photoUrl:
+        'https://lh3.googleusercontent.com/a-/AOh14GgNuMOWefZkBdGB_8w4WKHoHqqKiPZzscTwPQrmdQ=s96-c',
+    },
+  ];
+
   return {
-    props: { courses },
+    props: { courses, testimonies },
   };
 }
 
-export default function Courses({ courses }) {
+export default function Courses(props) {
+  const { courses, testimonies } = props;
+  // console.log(props);
   return (
-    <Box pt={20} px={4}>
+    <Box pt={20} px={4} pb={100}>
       <Heading fontSize={'2xl'} mb={4}>
         Watch All Courses
       </Heading>
@@ -52,20 +72,40 @@ export default function Courses({ courses }) {
         variant="dashed"
         borderColor={useColorModeValue('gray.900', 'gray.100')}
       />
-      <Center my={4}>
-        <Grid
-          templateColumns={['1fr', '1fr', 'repeat(2, 1fr)', 'repeat(3, 1fr)']}
-          gap={6}
-          rowGap={10}
-          justifyItems="center"
-          align="center"
-          gridAutoRows="1fr"
-        >
-          {courses.map((course) => (
-            <Card key={course.title} course={course} />
-          ))}
-        </Grid>
-      </Center>
+
+      <Grid
+        templateColumns={['1fr', '1fr', 'repeat(2, 1fr)', 'repeat(3, 1fr)']}
+        gap={2}
+        rowGap={10}
+        justifyItems="center"
+        align="center"
+        gridAutoRows="1fr"
+        my={4}
+      >
+        {courses.map((course) => (
+          <Card key={course.title} course={course} />
+        ))}
+      </Grid>
+
+      <Heading fontSize={'2xl'} mb={4} mt={12}>
+        Testimony
+      </Heading>
+      <Divider
+        variant="dashed"
+        borderColor={useColorModeValue('gray.900', 'gray.100')}
+      />
+      <Grid
+        templateColumns={['1fr', '1fr', 'repeat(2, 1fr)', 'repeat(2, 1fr)']}
+        gap={6}
+        rowGap={10}
+        // justifyItems="center"
+        align="center"
+        gridAutoRows="1fr"
+      >
+        {testimonies.map((testimony) => (
+          <Testimony key={testimony.author} testimony={testimony} />
+        ))}
+      </Grid>
     </Box>
   );
 }

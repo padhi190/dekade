@@ -13,6 +13,7 @@ import Link from 'next/link';
 
 export default function Card(props) {
   const { title, description, imgUrl, smallText = '' } = props.course;
+  // console.log(props);
   return (
     <LinkBox>
       <Link href="/" passHref>
