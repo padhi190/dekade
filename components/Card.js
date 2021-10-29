@@ -7,6 +7,8 @@ import {
   Heading,
   Flex,
   Button,
+  Tag,
+  TagLabel,
 } from '@chakra-ui/react';
 import { useColorModeValue } from '@chakra-ui/color-mode';
 import Link from 'next/link';
@@ -32,21 +34,20 @@ export default function Card(props) {
             <Box mb={4} position="relative">
               <Image alt="blog image" src={imgUrl} />
               {smallText ? (
-                <Text
+                <Tag
                   position="absolute"
                   top={4}
                   left={4}
-                  color="white"
                   bgColor="red.500"
-                  rounded="full"
-                  fontSize={11}
+                  fontSize={10}
+                  color="white"
                   py={1}
                   px={2}
                   textTransform="uppercase"
                   fontWeight="semibold"
                 >
-                  {smallText}
-                </Text>
+                  <TagLabel>{smallText}</TagLabel>
+                </Tag>
               ) : null}
             </Box>
             <Heading

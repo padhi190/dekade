@@ -20,6 +20,7 @@ import { CloseIcon, HamburgerIcon, MoonIcon, SunIcon } from '@chakra-ui/icons';
 import Link from 'next/link';
 import { signOut } from '@firebase/auth';
 import { useContext } from 'react';
+import { useRouter } from 'next/router';
 import { UserContext } from '../lib/context';
 import { auth } from '../lib/firebase';
 
@@ -66,7 +67,9 @@ export default function NavBar() {
   const { isOpen, onToggle, onClose } = useDisclosure();
   const hideOnMobile = ['none', 'none', 'flex', 'flex'];
   const showOnMobile = ['flex', 'flex', 'none', 'none'];
-
+  const router = useRouter();
+  const hideNav = router.pathname === '/andhan';
+  console.log(router.pathname);
   return (
     <Box
       bg={useColorModeValue('gray.100', 'gray.900')}
@@ -76,6 +79,7 @@ export default function NavBar() {
       zIndex={10}
       mb={6}
       boxShadow="md"
+      display={hideNav ? 'none' : 'block'}
     >
       <Flex
         h={16}
