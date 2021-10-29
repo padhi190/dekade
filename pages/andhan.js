@@ -65,13 +65,12 @@ export default function Andhan() {
             <Heading fontSize={'2xl'} fontWeight={500} fontFamily={'body'}>
               Andhan Indah
             </Heading>
-            <Text color={'gray.500'}>Professional MC / Trainer</Text>
           </Stack>
 
           <List spacing={2} mb={6}>
             <ListItem fontSize="sm">
               <ListIcon as={IoIosCheckmarkCircleOutline} color="green.500" />
-              Wakil Sekretaris Wilayah HIPAPI Jawa Barat
+              Professional MC
             </ListItem>
             <ListItem fontSize="sm">
               <ListIcon as={IoIosCheckmarkCircleOutline} color="green.500" />
