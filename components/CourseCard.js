@@ -13,7 +13,7 @@ import {
 import { useColorModeValue } from '@chakra-ui/color-mode';
 import Link from 'next/link';
 
-export default function Card(props) {
+export default function CourseCard(props) {
   const { title, description, imgUrl, smallText = '' } = props.course;
   // console.log(props);
   return (

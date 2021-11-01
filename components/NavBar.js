@@ -36,7 +36,9 @@ function SignInButton() {
         <Avatar src={user.photoUrl} name={user.name} />
       </MenuButton>
       <MenuList>
-        <MenuItem>Profile</MenuItem>
+        <Link href="/profile" passHref>
+          <MenuItem>Profile</MenuItem>
+        </Link>
         <MenuItem onClick={() => signOut(auth)}>SignOut</MenuItem>
       </MenuList>
     </Menu>
@@ -69,7 +71,6 @@ export default function NavBar() {
   const showOnMobile = ['flex', 'flex', 'none', 'none'];
   const router = useRouter();
   const hideNav = router.pathname === '/andhan';
-  console.log(router.pathname);
   return (
     <Box
       bg={useColorModeValue('gray.100', 'gray.900')}

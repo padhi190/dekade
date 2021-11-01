@@ -6,19 +6,13 @@ import {
   Divider,
   useColorModeValue,
 } from '@chakra-ui/react';
-import Card from '../../components/Card';
+import CourseCard from '../../components/CourseCard';
 import Testimony from '../../components/Testimony';
 
-import { firestore } from '../../lib/firebase';
-import { collection, getDocs, doc, getDoc } from '@firebase/firestore';
+import { getAllCourses } from '../../lib/firebase';
 
 export async function getStaticProps() {
-  const courseRef = collection(firestore, 'courses');
-  const courseColl = await getDocs(courseRef);
-  const courses = [];
-  courseColl.forEach((course) => courses.push(course.data()));
-  console.log(courses);
-
+  const courses = await getAllCourses();
   const testimonies = [
     {
       text: 'Teh Andhan ngejelasinnya masuk akal semua sesuai realita di lapangan, bermanfaat bangettt walaupun kurang puas dengan dibatasi waktu. Semoga tth akang sehat sehat semua aminnn...',
@@ -64,7 +58,7 @@ export default function Courses(props) {
         my={4}
       >
         {courses.map((course) => (
-          <Card key={course.title} course={course} />
+          <CourseCard key={course.title} course={course} />
         ))}
       </Grid>
 
