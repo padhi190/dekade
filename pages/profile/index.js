@@ -12,7 +12,7 @@ const RenderLoggedInUser = (user, courses) => {
     return (
       <Box pt={20} px={[2, 2, 4, 4]} pb={100}>
         <Text>
-          Logged in as <strong>{user?.email}</strong>. You're subscribed to:
+          Logged in as <strong>{user?.email}</strong>. You are subscribed to:
         </Text>
         <Grid
           templateColumns={['1fr', '1fr', 'repeat(2, 1fr)', 'repeat(3, 1fr)']}
