@@ -1,6 +1,6 @@
 import { React, useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../lib/context';
-import { Box, Text, Grid, Button } from '@chakra-ui/react';
+import { Box, Text, Grid, Button, Spinner } from '@chakra-ui/react';
 import Link from 'next/link';
 import { getCourses, getAllCourses } from '../../lib/firebase';
 
@@ -47,16 +47,23 @@ const RenderLoggedInUser = (user, courses) => {
 export default function ProfilePage() {
   const user = useContext(UserContext);
   const [courses, setCourses] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (user) {
       (async () => {
         if (user?.admin) {
+          setLoading(true);
           const subscribedcourses = await getAllCourses();
           setCourses(subscribedcourses);
+          setLoading(false);
         } else if (user?.subscription) {
+          setLoading(true);
           const subscribedcourses = await getCourses(user?.subscription);
+          setTimeout(() => {}, 5000);
+
           setCourses(subscribedcourses);
+          setLoading(false);
         }
       })();
     } else {
@@ -64,5 +71,15 @@ export default function ProfilePage() {
     }
   }, [user]);
 
-  return <>{!user ? <SignInBox /> : RenderLoggedInUser(user, courses)}</>;
+  return (
+    <>
+      {!user ? (
+        <SignInBox />
+      ) : loading ? (
+        <Spinner />
+      ) : (
+        RenderLoggedInUser(user, courses)
+      )}
+    </>
+  );
 }

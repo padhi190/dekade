@@ -13,7 +13,7 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  Collapse,
+  Slide,
 } from '@chakra-ui/react';
 
 import { CloseIcon, HamburgerIcon, MoonIcon, SunIcon } from '@chakra-ui/icons';
@@ -56,7 +56,13 @@ function MobileSignIn({ onClick }) {
   const { colorMode } = useColorMode();
   const render = !user ? (
     <Link href="/signin" passHref>
-      <Box as={Button} w="100vw" bgColor={darkBg[colorMode]} onClick={onClick}>
+      <Box
+        as={Button}
+        w="100vw"
+        bgColor={darkBg[colorMode]}
+        onClick={onClick}
+        h={20}
+      >
         Sign In
       </Box>
     </Link>
@@ -120,7 +126,7 @@ export default function NavBar() {
         </Flex>
       </Flex>
 
-      <Collapse in={isOpen}>
+      <Slide direction="left" in={isOpen} style={{ zIndex: 10 }}>
         <Flex
           w="100vw"
           bgColor={darkBg[colorMode]}
@@ -140,7 +146,7 @@ export default function NavBar() {
           />
           <Flex
             flexDir="column"
-            justifyContent="flex-start"
+            justifyContent="space-between"
             align="center"
             bgColor={darkBg[colorMode]}
           >
@@ -150,6 +156,7 @@ export default function NavBar() {
                 w="100vw"
                 bgColor={darkBg[colorMode]}
                 onClick={onClose}
+                h={20}
               >
                 Home
               </Box>
@@ -160,6 +167,7 @@ export default function NavBar() {
                 w="100vw"
                 bgColor={darkBg[colorMode]}
                 onClick={onClose}
+                h={20}
               >
                 Courses
               </Box>
@@ -167,7 +175,7 @@ export default function NavBar() {
             <MobileSignIn onClick={onClose} />
           </Flex>
         </Flex>
-      </Collapse>
+      </Slide>
     </Box>
   );
 }

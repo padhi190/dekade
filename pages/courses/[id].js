@@ -35,7 +35,14 @@ const RenderLessonContent = ({ currentLesson, subscribed, user }) => {
     }
   }
   return (
-    <Box bgColor="gray.600" px={[2, 2, 4, 4]} pt={4} w="100%" overflow="auto">
+    <Box
+      bgColor="gray.600"
+      px={[2, 2, 4, 4]}
+      pt={6}
+      pb={12}
+      w="100%"
+      overflow="auto"
+    >
       <Heading fontSize="2xl" mb={4}>
         {currentLesson?.title}
       </Heading>
