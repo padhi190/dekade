@@ -33,7 +33,7 @@ function SignInButton() {
   ) : (
     <Menu>
       <MenuButton>
-        <Avatar src={user.photoUrl} />
+        <Avatar src={user.photoUrl} name={user.name} />
       </MenuButton>
       <MenuList>
         <MenuItem>Profile</MenuItem>
