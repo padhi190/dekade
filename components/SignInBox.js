@@ -1,4 +1,11 @@
-import { Button, Center, Stack, Input, Image } from '@chakra-ui/react';
+import {
+  Button,
+  Center,
+  Stack,
+  Input,
+  Image,
+  useToast,
+} from '@chakra-ui/react';
 import {
   signInWithPopup,
   GoogleAuthProvider,
@@ -9,22 +16,48 @@ import { useRouter } from 'next/router';
 import { UserContext } from '../lib/context';
 import { auth } from '../lib/firebase';
 
+const addToast = (toast, type) => {
+  const configError = {
+    title: 'Login gagal',
+    description: 'Cek kembali email dan password anda',
+    status: 'error',
+  };
+  const configSuccess = {
+    title: 'Login berhasil',
+    status: 'success',
+  };
+  const config = type === 'error' ? configError : configSuccess;
+
+  toast({
+    duration: 3000,
+    isClosable: true,
+    position: 'top',
+    ...config,
+  });
+};
+
 const SignInBox = () => {
   const user = useContext(UserContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const toast = useToast();
   const router = useRouter();
+
   if (user) {
     router.push('/profile');
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(email);
-    signInWithEmailAndPassword(auth, email, password);
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      addToast(toast, 'success');
+    } catch (error) {
+      addToast(toast, 'error');
+    }
   };
   return (
-    <Center py={36} px={[2, 2, 4, 4]}>
+    <Center py={32} px={[2, 2, 4, 4]}>
       <Stack spacing={10} bgColor="gray.700" p={8} borderRadius="10px">
         <form onSubmit={(e) => handleSubmit(e)}>
           <Stack spacing={4} align="center">
@@ -35,6 +68,7 @@ const SignInBox = () => {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="email"
               isRequired
+              color="white"
             />
             <Input
               type="password"
@@ -42,6 +76,7 @@ const SignInBox = () => {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="password"
               isRequired
+              color="white"
             />
             <Button type="submit" w="100%">
               Login
@@ -50,7 +85,14 @@ const SignInBox = () => {
         </form>
         <Button
           colorScheme="orange"
-          onClick={() => signInWithPopup(auth, new GoogleAuthProvider())}
+          onClick={async () => {
+            try {
+              await signInWithPopup(auth, new GoogleAuthProvider());
+              addToast(toast, 'success');
+            } catch (error) {
+              addToast(toast, 'error');
+            }
+          }}
         >
           Sign In With Google
         </Button>

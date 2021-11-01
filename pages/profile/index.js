@@ -2,13 +2,14 @@ import { React, useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../lib/context';
 import { Box, Text, Grid, Button } from '@chakra-ui/react';
 import Link from 'next/link';
-import { getCourses } from '../../lib/firebase';
+import { getCourses, getAllCourses } from '../../lib/firebase';
 
 import CourseCard from '../../components/CourseCard';
 import SignInBox from '../../components/SignInBox';
 
 const RenderLoggedInUser = (user, courses) => {
-  if (user.subscription) {
+  console.log(courses);
+  if (user.subscription || user?.admin) {
     return (
       <Box pt={20} maxW="1300px" mx="auto" px={[2, 2, 4, 4]} pb={100}>
         <Text>
@@ -24,7 +25,7 @@ const RenderLoggedInUser = (user, courses) => {
           my={4}
         >
           {courses?.map((course) => (
-            <CourseCard key={course.title} course={course} />
+            <CourseCard key={course.id} course={course} />
           ))}
         </Grid>
       </Box>
@@ -50,7 +51,10 @@ export default function ProfilePage() {
   useEffect(() => {
     if (user) {
       (async () => {
-        if (user?.subscription) {
+        if (user?.admin) {
+          const subscribedcourses = await getAllCourses();
+          setCourses(subscribedcourses);
+        } else if (user?.subscription) {
           const subscribedcourses = await getCourses(user?.subscription);
           setCourses(subscribedcourses);
         }

@@ -14,14 +14,13 @@ import { useColorModeValue } from '@chakra-ui/color-mode';
 import Link from 'next/link';
 
 export default function CourseCard(props) {
-  const { title, description, imgUrl, smallText = '' } = props.course;
+  const { id, title, description, imgUrl, smallText = '' } = props.course;
   // console.log(props);
   return (
     <LinkBox>
-      <Link href="/" passHref>
+      <Link href={`/courses/${id}`} passHref>
         <LinkOverlay>
           <Flex
-            // maxW={'400px'}
             bg={useColorModeValue('white', 'gray.700')}
             rounded="10px"
             overflow="hidden"
