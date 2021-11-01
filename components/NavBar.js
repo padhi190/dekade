@@ -14,6 +14,7 @@ import {
   MenuList,
   MenuItem,
   Slide,
+  Collapse,
 } from '@chakra-ui/react';
 
 import { CloseIcon, HamburgerIcon, MoonIcon, SunIcon } from '@chakra-ui/icons';
@@ -92,7 +93,6 @@ export default function NavBar() {
         h={16}
         alignItems={'center'}
         justifyContent={'space-between'}
-        maxW="1300px"
         mx="auto"
       >
         <IconButton
@@ -126,7 +126,7 @@ export default function NavBar() {
         </Flex>
       </Flex>
 
-      <Slide direction="left" in={isOpen} style={{ zIndex: 10 }}>
+      <Collapse direction="left" in={isOpen}>
         <Flex
           w="100vw"
           bgColor={darkBg[colorMode]}
@@ -175,7 +175,7 @@ export default function NavBar() {
             <MobileSignIn onClick={onClose} />
           </Flex>
         </Flex>
-      </Slide>
+      </Collapse>
     </Box>
   );
 }

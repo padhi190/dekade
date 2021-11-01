@@ -2,7 +2,7 @@ import {
   Box,
   Stack,
   Heading,
-  Text,
+  useColorModeValue,
   Divider,
   AspectRatio,
   Badge,
@@ -15,17 +15,11 @@ import { getLessons } from '../../lib/firebase';
 import SignInBox from '../../components/SignInBox';
 
 const RenderLessonContent = ({ currentLesson, subscribed, user }) => {
-  console.log(subscribed);
+  const bgColor = useColorModeValue('gray.200', 'gray.600');
   if (!currentLesson?.free) {
     if (!user) {
       return (
-        <Box
-          bgColor="gray.600"
-          px={[2, 2, 4, 4]}
-          pt={4}
-          w="100%"
-          overflow="auto"
-        >
+        <Box bgColor={bgColor} px={[2, 2, 4, 4]} w="100%" overflow="auto">
           <SignInBox />
         </Box>
       );
@@ -36,7 +30,7 @@ const RenderLessonContent = ({ currentLesson, subscribed, user }) => {
   }
   return (
     <Box
-      bgColor="gray.600"
+      bgColor={bgColor}
       px={[2, 2, 4, 4]}
       pt={6}
       pb={12}
@@ -86,13 +80,10 @@ export default function CoursePage() {
   }, [user]);
 
   return (
-    <Box pt={16} maxW="1300px">
-      <Stack
-        direction={['column-reverse', 'column-reverse', 'row', 'row']}
-        spacing={6}
-      >
+    <Box pt={16}>
+      <Stack direction={['column-reverse', 'column-reverse', 'row', 'row']}>
         <Box
-          bgColor="gray.700"
+          bgColor={useColorModeValue('gray.100', 'gray.900')}
           px={[2, 2, 4, 4]}
           pt={4}
           minW="250px"
@@ -117,12 +108,16 @@ export default function CoursePage() {
               direction="row"
               justify="space-between"
               align="center"
-              bgColor={currentLesson === lesson ? 'gray.600' : 'gray.700'}
+              bgColor={
+                currentLesson === lesson
+                  ? useColorModeValue('gray.300', 'gray.700')
+                  : useColorModeValue('gray.100', 'gray.900')
+              }
               mb={2}
               cursor="pointer"
               transition="ease-out 0.3s"
               _hover={{
-                bgColor: 'gray.600',
+                bgColor: 'gray.500',
                 transform: ['', '', 'scale(1.05,1.05)', 'scale(1.05,1.05)'],
               }}
               p={4}
@@ -131,7 +126,11 @@ export default function CoursePage() {
               <Box>{lesson.no}</Box>
               <Box>{lesson.title}</Box>
               <Stack>
-                {lesson.free ? <Badge colorScheme="green">FREE</Badge> : null}
+                {lesson.free ? (
+                  <Badge colorScheme="green" variant="solid">
+                    FREE
+                  </Badge>
+                ) : null}
                 <Box>{lesson.duration}</Box>
               </Stack>
             </Stack>

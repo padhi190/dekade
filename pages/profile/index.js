@@ -6,9 +6,10 @@ import { getCourses, getAllCourses } from '../../lib/firebase';
 
 import CourseCard from '../../components/CourseCard';
 import SignInBox from '../../components/SignInBox';
+import AuthCheck from '../../components/AuthCheck';
 
-const RenderLoggedInUser = (user, courses) => {
-  console.log(courses);
+const RenderLoggedInUser = ({ user, courses }) => {
+  console.log(user);
   if (user.subscription || user?.admin) {
     return (
       <Box pt={20} maxW="1300px" mx="auto" px={[2, 2, 4, 4]} pb={100}>
@@ -73,13 +74,9 @@ export default function ProfilePage() {
 
   return (
     <>
-      {!user ? (
-        <SignInBox />
-      ) : loading ? (
-        <Spinner />
-      ) : (
-        RenderLoggedInUser(user, courses)
-      )}
+      <AuthCheck>
+        <RenderLoggedInUser user={user} courses={courses} />
+      </AuthCheck>
     </>
   );
 }
