@@ -24,8 +24,8 @@ const SignInBox = () => {
     signInWithEmailAndPassword(auth, email, password);
   };
   return (
-    <Center py={36}>
-      <Stack spacing={10} bgColor="gray.700" p={10} borderRadius="10px">
+    <Center py={36} px={[2, 2, 4, 4]}>
+      <Stack spacing={10} bgColor="gray.700" p={8} borderRadius="10px">
         <form onSubmit={(e) => handleSubmit(e)}>
           <Stack spacing={4} align="center">
             <Image src="/logo.png" alt="logo" width={120} mb={4} />

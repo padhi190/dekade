@@ -10,7 +10,7 @@ import SignInBox from '../../components/SignInBox';
 const RenderLoggedInUser = (user, courses) => {
   if (user.subscription) {
     return (
-      <Box pt={20} px={[2, 2, 4, 4]} pb={100}>
+      <Box pt={20} maxW="1300px" mx="auto" px={[2, 2, 4, 4]} pb={100}>
         <Text>
           Logged in as <strong>{user?.email}</strong>. You are subscribed to:
         </Text>
@@ -31,14 +31,14 @@ const RenderLoggedInUser = (user, courses) => {
     );
   } else {
     return (
-      <>
+      <Box pt={20} maxW="1300px" mx="auto" px={[2, 2, 4, 4]} pb={100}>
         <Text mb={4}>
           Logged in as <strong>{user?.email}</strong>.
         </Text>
         <Link href="/courses" passHref>
           <Button colorScheme="green">Lihat Online Courses</Button>
         </Link>
-      </>
+      </Box>
     );
   }
 };
