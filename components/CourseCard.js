@@ -17,7 +17,10 @@ export default function CourseCard(props) {
   const { id, title, description, imgUrl, smallText = '' } = props.course;
   // console.log(props);
   return (
-    <LinkBox>
+    <LinkBox
+      transition="ease-out 0.3s"
+      _hover={{ transform: 'translateY(-10px)' }}
+    >
       <Link href={`/courses/${id}`} passHref>
         <LinkOverlay>
           <Flex

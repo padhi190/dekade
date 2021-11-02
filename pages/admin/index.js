@@ -14,6 +14,7 @@ import {
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import AuthCheck from '../../components/AuthCheck';
+import ImageUploader from '../../components/ImageUploader';
 import {
   getAllCourses,
   addCourse,
@@ -189,6 +190,21 @@ export default function CourseAdmin() {
                   focusBorderColor="lime"
                 />
               </FormControl>
+              <FormControl>
+                <FormLabel>Badge (optional)</FormLabel>
+                <Input
+                  value={currentCourse?.smallText || ''}
+                  onChange={(e) =>
+                    setCurrentCourse({
+                      ...currentCourse,
+                      smallText: e.target.value,
+                    })
+                  }
+                  w="99%"
+                  mx="auto"
+                  focusBorderColor="lime"
+                />
+              </FormControl>
 
               <FormControl>
                 <FormLabel>Image Link</FormLabel>
@@ -206,6 +222,7 @@ export default function CourseAdmin() {
                   focusBorderColor="lime"
                 />
               </FormControl>
+              <ImageUploader courseId={currentCourse?.title} />
               <Flex
                 gridGap={4}
                 flexDirection={['column', 'column', 'row', 'row']}

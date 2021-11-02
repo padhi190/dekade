@@ -72,6 +72,7 @@ function MobileSignIn({ onClick }) {
   return render;
 }
 export default function NavBar() {
+  const user = useContext(UserContext);
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onToggle, onClose } = useDisclosure();
   const hideOnMobile = ['none', 'none', 'flex', 'flex'];
@@ -114,6 +115,11 @@ export default function NavBar() {
           <Link href="/courses" passHref>
             <Button variant="ghost">Courses</Button>
           </Link>
+          {user?.admin && (
+            <Link href="/admin" passHref>
+              <Button variant="ghost">Admin</Button>
+            </Link>
+          )}
         </Stack>
 
         <Flex alignItems={'center'} justifyContent="center">
@@ -172,6 +178,19 @@ export default function NavBar() {
                 Courses
               </Box>
             </Link>
+            {user?.admin && (
+              <Link href="/admin" passHref>
+                <Box
+                  as={Button}
+                  w="100vw"
+                  bgColor={darkBg[colorMode]}
+                  onClick={onClose}
+                  h={20}
+                >
+                  Admin
+                </Box>
+              </Link>
+            )}
             <MobileSignIn onClick={onClose} />
           </Flex>
         </Flex>
