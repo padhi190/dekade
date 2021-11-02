@@ -32,7 +32,7 @@ export async function getStaticProps() {
 
   return {
     props: { courses, testimonies },
-    revalidate: 100000,
+    revalidate: 3600,
   };
 }
 
