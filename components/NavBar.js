@@ -126,7 +126,7 @@ export default function NavBar() {
         </Flex>
       </Flex>
 
-      <Collapse direction="left" in={isOpen}>
+      <Slide direction="left" in={isOpen}>
         <Flex
           w="100vw"
           bgColor={darkBg[colorMode]}
@@ -175,7 +175,7 @@ export default function NavBar() {
             <MobileSignIn onClick={onClose} />
           </Flex>
         </Flex>
-      </Collapse>
+      </Slide>
     </Box>
   );
 }

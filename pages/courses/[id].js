@@ -58,6 +58,9 @@ export default function CoursePage() {
   const [lessons, setLessons] = useState(null);
   const [currentLesson, setCurrentLesson] = useState(null);
 
+  const activeBgColor = useColorModeValue('gray.300', 'gray.700');
+  const nonActiveBgColor = useColorModeValue('gray.100', 'gray.900');
+
   const checkSubscription = () => {
     if (user?.admin || user?.subscription?.includes(router.query.id)) {
       return true;
@@ -109,9 +112,7 @@ export default function CoursePage() {
               justify="space-between"
               align="center"
               bgColor={
-                currentLesson === lesson
-                  ? useColorModeValue('gray.300', 'gray.700')
-                  : useColorModeValue('gray.100', 'gray.900')
+                currentLesson === lesson ? activeBgColor : nonActiveBgColor
               }
               mb={2}
               cursor="pointer"
