@@ -8,15 +8,45 @@ import {
   Badge,
   Text,
   Flex,
+  Button,
 } from '@chakra-ui/react';
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import ReactMarkdown from 'react-markdown';
+import rehypeRaw from 'rehype-raw';
 import { UserContext } from '../../lib/context';
 import { getLessons, getCourses } from '../../lib/firebase';
 import SignInBox from '../../components/SignInBox';
 
-const RenderLessonContent = ({ currentLesson, subscribed, user }) => {
+const RenderLessonNav = ({ currentLesson, lessons, setCurrentLesson }) => {
+  console.log(currentLesson);
+  const curIdx = lessons?.findIndex((lesson) => lesson === currentLesson);
+  const nextIdx = Math.min(curIdx + 1, lessons?.length - 1);
+  const prevIdx = Math.max(curIdx - 1, 0);
+  console.log(prevIdx);
+  return (
+    <Flex gridGap={4} ml="auto" justifyContent="flex-end" mt={4}>
+      {curIdx > 0 ? (
+        <Button size="md" onClick={() => setCurrentLesson(lessons[prevIdx])}>
+          👈 {lessons[prevIdx].title.toUpperCase()}
+        </Button>
+      ) : null}
+      {curIdx < lessons?.length - 1 ? (
+        <Button size="md" onClick={() => setCurrentLesson(lessons[nextIdx])}>
+          👉 {lessons[nextIdx].title.toUpperCase()}
+        </Button>
+      ) : null}
+    </Flex>
+  );
+};
+
+const RenderLessonContent = ({
+  currentLesson,
+  subscribed,
+  user,
+  lessons,
+  setCurrentLesson,
+}) => {
   const bgColor = useColorModeValue('gray.200', 'gray.600');
   const dividerColor = useColorModeValue('gray.900', 'white');
   if (!currentLesson?.free) {
@@ -38,19 +68,43 @@ const RenderLessonContent = ({ currentLesson, subscribed, user }) => {
       pt={6}
       pb={12}
       w="100%"
-      overflow="auto"
+      h="100vh"
+      overflowY="scroll"
+      css={{
+        '&::-webkit-scrollbar': {
+          width: '4px',
+        },
+        '&::-webkit-scrollbar-track': {
+          width: '6px',
+        },
+        '&::-webkit-scrollbar-thumb': {
+          background: 'white',
+          borderRadius: '24px',
+        },
+      }}
     >
-      <Heading fontSize="2xl" mb={1}>
-        {currentLesson?.title}
-      </Heading>
+      <Flex justifyContent="space-between" alignItems="center">
+        <Heading fontSize="2xl" mb={1}>
+          {currentLesson?.title}
+        </Heading>
+      </Flex>
       <Text mb={4}>{currentLesson?.description}</Text>
-      <Divider borderColor={dividerColor} />
-      <Box my={4}>
-        <AspectRatio ratio={16 / 9}>
-          <iframe title="title" src={currentLesson?.link} allowFullScreen />
-        </AspectRatio>
-      </Box>
-      <ReactMarkdown>{currentLesson?.content}</ReactMarkdown>
+      <Divider borderColor={dividerColor} mb={4} />
+      {currentLesson?.link ? (
+        <Box>
+          <AspectRatio ratio={16 / 9}>
+            <iframe title="title" src={currentLesson?.link} allowFullScreen />
+          </AspectRatio>
+        </Box>
+      ) : null}
+      <ReactMarkdown rehypePlugins={[rehypeRaw]}>
+        {currentLesson?.content}
+      </ReactMarkdown>
+      <RenderLessonNav
+        currentLesson={currentLesson}
+        lessons={lessons}
+        setCurrentLesson={setCurrentLesson}
+      />
     </Box>
   );
 };
@@ -109,7 +163,7 @@ export default function CoursePage() {
           bgColor={useColorModeValue('gray.100', 'gray.900')}
           px={[2, 2, 4, 4]}
           pt={4}
-          w={['100%', '100%', '100%', '35%']}
+          w={['100%', '100%', '100%', '40%']}
           h="100vh"
           overflow="scroll"
           css={{
@@ -180,6 +234,8 @@ export default function CoursePage() {
           currentLesson={currentLesson}
           subscribed={subscribed}
           user={user}
+          lessons={lessons}
+          setCurrentLesson={setCurrentLesson}
         />
       </Stack>
     </Box>

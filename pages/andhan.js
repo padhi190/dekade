@@ -33,7 +33,7 @@ export default function Andhan() {
   const jadwalmc =
     'https://api.whatsapp.com/send?phone=6281333308856&text=Halo,%20saya%20mau%20tanya%20jadwal%20MC%20untuk%0A%0ANama:%0AJenis%20Acara:%0ATanggal:%0ATempat%20Acara:%0AJam:%0A%0AApakah%20Teh%20Andhan%20available?';
   return (
-    <Grid placeItems="center" h="90vh">
+    <Grid placeItems="center" h="95vh" my={'auto'}>
       <Box
         maxW={'350px'}
         w={'full'}
@@ -56,7 +56,7 @@ export default function Andhan() {
             size={'xl'}
             src={'andhan.jpg'}
             alt={'Andhan'}
-            border="2px solid white"
+            border="4px solid white"
           />
         </Flex>
 

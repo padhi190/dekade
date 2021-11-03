@@ -86,7 +86,7 @@ export default function CourseAdmin() {
   const nonActiveBgColor = useColorModeValue('gray.100', 'gray.900');
   return (
     <AuthCheck adminContent={true}>
-      <Box pt={20}>
+      <Box pt={16}>
         <Stack direction={['column-reverse', 'column-reverse', 'row', 'row']}>
           <Stack
             direction="column"
@@ -95,7 +95,7 @@ export default function CourseAdmin() {
             bgColor={useColorModeValue('gray.100', 'gray.900')}
             px={[2, 2, 4, 4]}
             pt={4}
-            overflow="scroll"
+            overflowY="scroll"
             css={{
               '&::-webkit-scrollbar': {
                 width: '4px',
@@ -155,7 +155,25 @@ export default function CourseAdmin() {
               ))}
             </Box>
           </Stack>
-          <Box w="100%" px={6} py={10}>
+          <Box
+            w="100%"
+            px={6}
+            py={10}
+            h="100vh"
+            overflowY="scroll"
+            css={{
+              '&::-webkit-scrollbar': {
+                width: '4px',
+              },
+              '&::-webkit-scrollbar-track': {
+                width: '6px',
+              },
+              '&::-webkit-scrollbar-thumb': {
+                background: 'white',
+                borderRadius: '24px',
+              },
+            }}
+          >
             <Stack as="form" onSubmit={onUpdateCourse} spacing={4}>
               <FormControl>
                 <FormLabel>Course Title</FormLabel>

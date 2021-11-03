@@ -97,7 +97,7 @@ export default function EditLesson() {
 
   return (
     <AuthCheck>
-      <Box pt={20}>
+      <Box pt={16}>
         <Stack direction={['column-reverse', 'column-reverse', 'row', 'row']}>
           <Stack
             direction="column"
@@ -106,7 +106,7 @@ export default function EditLesson() {
             bgColor={useColorModeValue('gray.100', 'gray.900')}
             px={[2, 2, 4, 4]}
             pt={4}
-            overflow="scroll"
+            overflowY="scroll"
             css={{
               '&::-webkit-scrollbar': {
                 width: '4px',
@@ -173,15 +173,34 @@ export default function EditLesson() {
                   onClick={() => setCurrentLesson(lesson)}
                 >
                   {/* <Box>{lesson.no}</Box> */}
-                  <Box>{lesson.title}</Box>
-                  <Badge colorScheme="green">
+                  <Box fontSize="sm">
+                    {lesson.no} {lesson.title}
+                  </Box>
+                  <Badge colorScheme="green" size="xs">
                     {lesson.free ? 'FREE' : null}
                   </Badge>
                 </Stack>
               ))}
             </Box>
           </Stack>
-          <Box w="100%" px={6}>
+          <Box
+            w="100%"
+            px={6}
+            h="100vh"
+            overflowY="scroll"
+            css={{
+              '&::-webkit-scrollbar': {
+                width: '4px',
+              },
+              '&::-webkit-scrollbar-track': {
+                width: '6px',
+              },
+              '&::-webkit-scrollbar-thumb': {
+                background: 'white',
+                borderRadius: '24px',
+              },
+            }}
+          >
             <Heading fontSize="md" mb={4} py={4}>
               {currentCourse?.title}
             </Heading>
@@ -284,7 +303,7 @@ export default function EditLesson() {
                 <FormLabel>Content (Markdown)</FormLabel>
                 <Textarea
                   size="lg"
-                  minH="50vh"
+                  minH="20vh"
                   resize="vertical"
                   value={currentLesson?.content || ''}
                   onChange={(e) =>
