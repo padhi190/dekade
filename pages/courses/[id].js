@@ -6,16 +6,18 @@ import {
   Divider,
   AspectRatio,
   Badge,
+  Text,
 } from '@chakra-ui/react';
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import ReactMarkdown from 'react-markdown';
 import { UserContext } from '../../lib/context';
-import { getLessons } from '../../lib/firebase';
+import { getLessons, getCourses } from '../../lib/firebase';
 import SignInBox from '../../components/SignInBox';
 
 const RenderLessonContent = ({ currentLesson, subscribed, user }) => {
   const bgColor = useColorModeValue('gray.200', 'gray.600');
+  const dividerColor = useColorModeValue('gray.900', 'white');
   if (!currentLesson?.free) {
     if (!user) {
       return (
@@ -37,10 +39,11 @@ const RenderLessonContent = ({ currentLesson, subscribed, user }) => {
       w="100%"
       overflow="auto"
     >
-      <Heading fontSize="2xl" mb={4}>
+      <Heading fontSize="2xl" mb={1}>
         {currentLesson?.title}
       </Heading>
-      <Divider color="white" />
+      <Text mb={4}>{currentLesson?.description}</Text>
+      <Divider borderColor={dividerColor} />
       <Box mt={4}>
         <AspectRatio ratio={16 / 9}>
           <iframe title="title" src={currentLesson?.link} allowFullScreen />
@@ -57,9 +60,12 @@ export default function CoursePage() {
   const [subscribed, setSubscribed] = useState(false);
   const [lessons, setLessons] = useState(null);
   const [currentLesson, setCurrentLesson] = useState(null);
+  const [course, setCourse] = useState(null);
 
   const activeBgColor = useColorModeValue('gray.300', 'gray.700');
   const nonActiveBgColor = useColorModeValue('gray.100', 'gray.900');
+
+  const textColor = useColorModeValue('gray.700', 'gray.200');
 
   const checkSubscription = () => {
     if (user?.admin || user?.subscription?.includes(router.query.id)) {
@@ -74,11 +80,15 @@ export default function CoursePage() {
     (async () => {
       try {
         const lessonsArr = await getLessons(router.query.id);
+        const coursesArr = await getCourses([router.query.id]);
+        setCourse(coursesArr[0]);
         setLessons(lessonsArr);
         if (lessonsArr.length) {
           setCurrentLesson(lessonsArr[0]);
         }
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
     })();
   }, [user]);
 
@@ -89,7 +99,7 @@ export default function CoursePage() {
           bgColor={useColorModeValue('gray.100', 'gray.900')}
           px={[2, 2, 4, 4]}
           pt={4}
-          minW="250px"
+          maxW="350px"
           h="100vh"
           overflow="scroll"
           css={{
@@ -105,6 +115,14 @@ export default function CoursePage() {
             },
           }}
         >
+          <Heading size="md" mb={2}>
+            {course?.title}
+          </Heading>
+          <Divider
+            borderColor={useColorModeValue('gray.700', 'gray.100')}
+            variant="dashed"
+            mb={2}
+          />
           {lessons?.map((lesson) => (
             <Stack
               key={lesson.id}
@@ -124,8 +142,15 @@ export default function CoursePage() {
               p={4}
               onClick={() => setCurrentLesson(lesson)}
             >
-              <Box>{lesson.no}</Box>
-              <Box>{lesson.title}</Box>
+              <Box px={1}>{lesson.icon}</Box>
+              <Stack spacing={0}>
+                <Text fontSize="md" fontWeight="bold" textTransform="uppercase">
+                  {lesson.no} {lesson.title}
+                </Text>
+                <Box fontSize="sm" color={textColor}>
+                  {lesson.description}
+                </Box>
+              </Stack>
               <Stack>
                 {lesson.free ? (
                   <Badge colorScheme="green" variant="solid">
