@@ -45,7 +45,7 @@ const RenderLessonContent = ({ currentLesson, subscribed, user }) => {
       </Heading>
       <Text mb={4}>{currentLesson?.description}</Text>
       <Divider borderColor={dividerColor} />
-      <Box mt={4}>
+      <Box my={4}>
         <AspectRatio ratio={16 / 9}>
           <iframe title="title" src={currentLesson?.link} allowFullScreen />
         </AspectRatio>
@@ -154,18 +154,18 @@ export default function CoursePage() {
               <Box px={1}>{lesson.icon}</Box>
               <Stack px={4} spacing={0} alignSelf="start">
                 <Text
-                  noOfLines={1}
-                  fontSize="md"
+                  noOfLines={2}
+                  fontSize="sm"
                   fontWeight="bold"
                   textTransform="uppercase"
                 >
                   {lesson.title}
                 </Text>
-                <Text noOfLines={3} fontSize="sm" color={textColor}>
+                <Text noOfLines={3} fontSize="smaller" color={textColor}>
                   {lesson.description}
                 </Text>
               </Stack>
-              <Stack ml="auto">
+              <Stack ml="auto" fontSize="smaller">
                 {lesson.free ? (
                   <Badge colorScheme="green" variant="solid">
                     FREE

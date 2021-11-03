@@ -12,15 +12,21 @@ import {
   Textarea,
   Checkbox,
   Heading,
+  useToast,
+  Badge,
 } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { getLessons, getCourses } from '../../../lib/firebase';
+import {
+  getLessons,
+  getCourses,
+  addLesson,
+  deleteLesson,
+  editLesson,
+} from '../../../lib/firebase';
 import AuthCheck from '../../../components/AuthCheck';
 
 export default function EditLesson() {
-  const router = useRouter();
-  const courseId = router.query.courseid;
   const [currentCourse, setCurrentCourse] = useState(null);
   const [currentLesson, setCurrentLesson] = useState(null);
   const [lessonsList, setLessonsList] = useState(null);
@@ -28,31 +34,64 @@ export default function EditLesson() {
 
   const activeBgColor = useColorModeValue('gray.300', 'gray.700');
   const nonActiveBgColor = useColorModeValue('gray.100', 'gray.900');
+  const toast = useToast();
 
-  async function updateLessonsList() {
+  const addToast = (type, title) => {
+    const configError = {
+      status: 'error',
+    };
+    const configSuccess = {
+      status: 'success',
+    };
+    const config = type === 'error' ? configError : configSuccess;
+
+    toast({
+      title,
+      duration: 3000,
+      isClosable: true,
+      position: 'top',
+      ...config,
+    });
+  };
+
+  async function updateLessonsList(courseId) {
     const lessons = await getLessons(courseId);
+
     setLessonsList(lessons);
     setCurrentLesson(lessons[0]);
   }
 
   useEffect(() => {
     (async () => {
-      await updateLessonsList();
+      const courseId = window.location.href.split('/').pop();
+      await updateLessonsList(courseId);
       const courseArr = await getCourses([courseId]);
       setCurrentCourse(courseArr[0]);
     })();
   }, []);
 
   const onAddLesson = async (data) => {
+    const courseId = window.location.href.split('/').pop();
+    await addLesson(courseId, data);
+    addToast('success', 'Lesson added');
+    await updateLessonsList(courseId);
+    console.log(lessonsList);
     reset();
   };
 
   const onUpdateLesson = async (e) => {
     e.preventDefault();
+    console.log(currentLesson);
+    await editLesson(currentCourse.id, currentLesson.id, currentLesson);
+    addToast('success', 'Lesson updated');
+    await updateLessonsList(currentCourse.id);
   };
 
   const onDeleteLesson = async () => {
     if (confirm('are you sure?')) {
+      await deleteLesson(currentCourse.id, currentLesson.id);
+      addToast('success', 'Lesson deleted');
+      await updateLessonsList(currentCourse.id);
     }
   };
 
@@ -82,13 +121,25 @@ export default function EditLesson() {
             }}
           >
             <Box mb={4}>
-              <Stack as="form" onSubmit={handleSubmit(onAddLesson)} spacing={4}>
+              <Stack
+                as="form"
+                onSubmit={handleSubmit(onAddLesson)}
+                spacing={4}
+                align="center"
+              >
+                <Input
+                  type="text"
+                  {...register('no', { required: true })}
+                  placeholder="Lesson No"
+                  w="99%"
+                  focusBorderColor={useColorModeValue('gray.800', 'white')}
+                  borderColor={useColorModeValue('gray.800', 'white')}
+                />
                 <Input
                   type="text"
                   {...register('title', { required: true })}
                   placeholder="Lesson Title"
                   w="99%"
-                  mx="auto"
                   focusBorderColor={useColorModeValue('gray.800', 'white')}
                   borderColor={useColorModeValue('gray.800', 'white')}
                 />
@@ -123,6 +174,9 @@ export default function EditLesson() {
                 >
                   {/* <Box>{lesson.no}</Box> */}
                   <Box>{lesson.title}</Box>
+                  <Badge colorScheme="green">
+                    {lesson.free ? 'FREE' : null}
+                  </Badge>
                 </Stack>
               ))}
             </Box>
@@ -229,7 +283,9 @@ export default function EditLesson() {
               <FormControl>
                 <FormLabel>Content (Markdown)</FormLabel>
                 <Textarea
-                  noOfLines={3}
+                  size="lg"
+                  minH="50vh"
+                  resize="vertical"
                   value={currentLesson?.content || ''}
                   onChange={(e) =>
                     setCurrentLesson({
