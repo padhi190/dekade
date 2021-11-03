@@ -7,6 +7,7 @@ import {
   AspectRatio,
   Badge,
   Text,
+  Flex,
 } from '@chakra-ui/react';
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
@@ -79,27 +80,36 @@ export default function CoursePage() {
     setSubscribed(checkSubscription());
     (async () => {
       try {
-        const lessonsArr = await getLessons(router.query.id);
-        const coursesArr = await getCourses([router.query.id]);
+        const lessonsProm = getLessons(router.query.id);
+        const coursesProm = getCourses([router.query.id]);
+        const [lessonsArr, coursesArr] = await Promise.all([
+          lessonsProm,
+          coursesProm,
+        ]);
         setCourse(coursesArr[0]);
         setLessons(lessonsArr);
         if (lessonsArr.length) {
           setCurrentLesson(lessonsArr[0]);
         }
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     })();
   }, [user]);
 
   return (
     <Box pt={16}>
-      <Stack direction={['column-reverse', 'column-reverse', 'row', 'row']}>
+      <Stack
+        direction={[
+          'column-reverse',
+          'column-reverse',
+          'column-reverse',
+          'row',
+        ]}
+      >
         <Box
           bgColor={useColorModeValue('gray.100', 'gray.900')}
           px={[2, 2, 4, 4]}
           pt={4}
-          maxW="350px"
+          w={['100%', '100%', '100%', '35%']}
           h="100vh"
           overflow="scroll"
           css={{
@@ -124,10 +134,9 @@ export default function CoursePage() {
             mb={2}
           />
           {lessons?.map((lesson) => (
-            <Stack
+            <Flex
               key={lesson.id}
               direction="row"
-              justify="space-between"
               align="center"
               bgColor={
                 currentLesson === lesson ? activeBgColor : nonActiveBgColor
@@ -143,15 +152,20 @@ export default function CoursePage() {
               onClick={() => setCurrentLesson(lesson)}
             >
               <Box px={1}>{lesson.icon}</Box>
-              <Stack spacing={0}>
-                <Text fontSize="md" fontWeight="bold" textTransform="uppercase">
-                  {lesson.no} {lesson.title}
+              <Stack px={4} spacing={0} alignSelf="start">
+                <Text
+                  noOfLines={1}
+                  fontSize="md"
+                  fontWeight="bold"
+                  textTransform="uppercase"
+                >
+                  {lesson.title}
                 </Text>
-                <Box fontSize="sm" color={textColor}>
+                <Text noOfLines={3} fontSize="sm" color={textColor}>
                   {lesson.description}
-                </Box>
+                </Text>
               </Stack>
-              <Stack>
+              <Stack ml="auto">
                 {lesson.free ? (
                   <Badge colorScheme="green" variant="solid">
                     FREE
@@ -159,7 +173,7 @@ export default function CoursePage() {
                 ) : null}
                 <Box>{lesson.duration}</Box>
               </Stack>
-            </Stack>
+            </Flex>
           ))}
         </Box>
         <RenderLessonContent

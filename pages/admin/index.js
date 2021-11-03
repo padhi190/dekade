@@ -13,6 +13,7 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import Link from 'next/link';
 import AuthCheck from '../../components/AuthCheck';
 import ImageUploader from '../../components/ImageUploader';
 import {
@@ -85,8 +86,7 @@ export default function CourseAdmin() {
   const nonActiveBgColor = useColorModeValue('gray.100', 'gray.900');
   return (
     <AuthCheck adminContent={true}>
-      return (
-      <Box pt="40px">
+      <Box pt={20}>
         <Stack direction={['column-reverse', 'column-reverse', 'row', 'row']}>
           <Stack
             direction="column"
@@ -230,9 +230,11 @@ export default function CourseAdmin() {
                 <Button type="submit" colorScheme="green">
                   Update Course
                 </Button>
-                <Button colorScheme="green" variant="outline">
-                  Edit Lessons
-                </Button>
+                <Link href={`/admin/courses/${currentCourse?.id}`} passHref>
+                  <Button colorScheme="green" variant="outline">
+                    Edit Lessons
+                  </Button>
+                </Link>
                 <Button colorScheme="red" onClick={onDeleteCourse}>
                   Delete Course
                 </Button>
