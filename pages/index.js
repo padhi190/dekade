@@ -27,7 +27,12 @@ export async function getStaticProps() {
 export default function Home({ courses }) {
   console.log(courses);
   return (
-    <Box pt={16} px={['2', '2', '4', '4']} w="100%">
+    <Box
+      pt={16}
+      px={['2', '2', '4', '4']}
+      w="100%"
+      bg={useColorModeValue('gray.100', 'gray.900')}
+    >
       <Flex
         pt={{ base: '4', md: '16' }}
         flexDir={['column', 'column', 'column', 'row']}
@@ -114,6 +119,7 @@ export default function Home({ courses }) {
         gridAutoRows="1fr"
         mt={4}
         mb={16}
+        px={['2', '2', '4', '4']}
       >
         {courses.map((course) => (
           <CourseCard key={course.title} course={course} />

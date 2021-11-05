@@ -40,7 +40,14 @@ export default function Courses(props) {
   const { courses, testimonies } = props;
   // console.log(props);
   return (
-    <Box pt={20} maxW="1300px" px={[2, 2, 4, 4]} pb={100} mx="auto">
+    <Box
+      pt={20}
+      maxW="1300px"
+      px={[2, 2, 4, 4]}
+      pb={100}
+      mx="auto"
+      bg={useColorModeValue('gray.100', 'gray.900')}
+    >
       <Heading fontSize={'2xl'} mb={4}>
         Watch All Courses
       </Heading>
@@ -57,6 +64,7 @@ export default function Courses(props) {
         align="center"
         gridAutoRows="1fr"
         my={4}
+        px={[2, 2, 4, 4]}
       >
         {courses.map((course) => (
           <CourseCard key={course.title} course={course} />
@@ -77,6 +85,7 @@ export default function Courses(props) {
         // justifyItems="center"
         align="center"
         gridAutoRows="1fr"
+        px={[2, 2, 4, 4]}
       >
         {testimonies.map((testimony) => (
           <Testimony key={testimony.author} testimony={testimony} />
