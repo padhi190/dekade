@@ -9,11 +9,18 @@ import {
   Text,
   Flex,
   Button,
+  VStack,
+  List,
+  ListItem,
+  ListIcon,
+  Center,
 } from '@chakra-ui/react';
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
+import Link from 'next/link';
+import { FaCheckCircle, FaWhatsapp } from 'react-icons/fa';
 import { UserContext } from '../../lib/context';
 import { getLessons, getCourses } from '../../lib/firebase';
 import SignInBox from '../../components/SignInBox';
@@ -25,15 +32,27 @@ const RenderLessonNav = ({ currentLesson, lessons, setCurrentLesson }) => {
   const prevIdx = Math.max(curIdx - 1, 0);
   console.log(prevIdx);
   return (
-    <Flex gridGap={4} ml="auto" justifyContent="flex-end" mt={4}>
+    <Flex
+      gridGap={4}
+      ml="auto"
+      justifyContent="flex-end"
+      mt={4}
+      flexDir={{ base: 'column', md: 'row' }}
+    >
       {curIdx > 0 ? (
-        <Button size="md" onClick={() => setCurrentLesson(lessons[prevIdx])}>
-          👈 {lessons[prevIdx].title.toUpperCase()}
+        <Button
+          fontSize={{ base: 'sm', md: 'md' }}
+          onClick={() => setCurrentLesson(lessons[prevIdx])}
+        >
+          {lessons[prevIdx].title.toUpperCase()}👈
         </Button>
       ) : null}
       {curIdx < lessons?.length - 1 ? (
-        <Button size="md" onClick={() => setCurrentLesson(lessons[nextIdx])}>
-          👉 {lessons[nextIdx].title.toUpperCase()}
+        <Button
+          fontSize={{ base: 'sm', md: 'md' }}
+          onClick={() => setCurrentLesson(lessons[nextIdx])}
+        >
+          👉{lessons[nextIdx].title.toUpperCase()}
         </Button>
       ) : null}
     </Flex>
@@ -46,9 +65,15 @@ const RenderLessonContent = ({
   user,
   lessons,
   setCurrentLesson,
+  course,
 }) => {
   const bgColor = useColorModeValue('gray.200', 'gray.600');
   const dividerColor = useColorModeValue('gray.900', 'white');
+  // const courseTitle = encodeURI(course?.title);
+  const waText = encodeURI(
+    `Halo admin, saya mau daftar online course *${course?.title}*, apakah *promo harga* ~Rp 350.000,-~ ${course?.price} dan *bonus ebook* masih ada?`
+  );
+  const walink = `https://api.whatsapp.com/send?phone=6281333308856&text=${waText}`;
   if (!currentLesson?.free) {
     if (!user) {
       return (
@@ -58,7 +83,77 @@ const RenderLessonContent = ({
       );
     }
     if (!subscribed) {
-      return <div>Buy course</div>;
+      return (
+        <Center mx="auto" w="100%">
+          <Box
+            mb={4}
+            shadow="base"
+            borderWidth="1px"
+            borderColor={bgColor}
+            borderRadius={'xl'}
+            maxW="330px"
+          >
+            <Box position="relative">
+              <Box
+                position="absolute"
+                top="-16px"
+                left="50%"
+                style={{ transform: 'translate(-50%)' }}
+              >
+                <Text
+                  textTransform="uppercase"
+                  bg={'red.300'}
+                  px={3}
+                  py={1}
+                  color={'gray.900'}
+                  fontSize="sm"
+                  fontWeight="600"
+                  rounded="xl"
+                >
+                  PRO ONLY
+                </Text>
+              </Box>
+              <Box py={4} px={12}>
+                <Text fontWeight="500" fontSize="lg" textAlign="center">
+                  {course?.title}
+                </Text>
+              </Box>
+              <VStack bg={bgColor} py={4} borderBottomRadius={'xl'}>
+                <List spacing={3} textAlign="start" px={12}>
+                  <ListItem>
+                    <ListIcon as={FaCheckCircle} color="green.500" />
+                    Full online
+                  </ListItem>
+                  <ListItem>
+                    <ListIcon as={FaCheckCircle} color="green.500" />
+                    Akses seumur hidup
+                  </ListItem>
+                  <ListItem>
+                    <ListIcon as={FaCheckCircle} color="green.500" />
+                    Update materi gratis
+                  </ListItem>
+                  <ListItem>
+                    <ListIcon as={FaCheckCircle} color="green.500" />
+                    Diskon untuk kelas offline
+                  </ListItem>
+                </List>
+                <Box w="80%" pt={7}>
+                  <Link href={walink} passHref>
+                    <Button
+                      w="full"
+                      colorScheme="green"
+                      textTransform="uppercase"
+                      leftIcon={<FaWhatsapp />}
+                    >
+                      Daftar via WA
+                    </Button>
+                  </Link>
+                </Box>
+              </VStack>
+            </Box>
+          </Box>
+        </Center>
+      );
     }
   }
   return (
@@ -236,6 +331,7 @@ export default function CoursePage() {
           user={user}
           lessons={lessons}
           setCurrentLesson={setCurrentLesson}
+          course={course}
         />
       </Stack>
     </Box>

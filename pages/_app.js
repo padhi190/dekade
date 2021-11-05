@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import {
   ChakraProvider,
   extendTheme,
@@ -22,12 +23,19 @@ const config = {
 function MyApp({ Component, pageProps }) {
   const user = useUserData();
   return (
-    <ChakraProvider theme={extendTheme({ config })}>
-      <UserContext.Provider value={user}>
-        <NavBar />
-        <Component {...pageProps} />
-      </UserContext.Provider>
-    </ChakraProvider>
+    <>
+      <Head>
+        <title>DEKADE</title>
+        <meta name="description" content="DEKADE WO Class" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <ChakraProvider theme={extendTheme({ config })}>
+        <UserContext.Provider value={user}>
+          <NavBar />
+          <Component {...pageProps} />
+        </UserContext.Provider>
+      </ChakraProvider>
+    </>
   );
 }
 

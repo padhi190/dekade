@@ -223,6 +223,21 @@ export default function CourseAdmin() {
                   focusBorderColor="lime"
                 />
               </FormControl>
+              <FormControl>
+                <FormLabel>Price</FormLabel>
+                <Input
+                  value={currentCourse?.price || ''}
+                  onChange={(e) =>
+                    setCurrentCourse({
+                      ...currentCourse,
+                      price: e.target.value,
+                    })
+                  }
+                  w="99%"
+                  mx="auto"
+                  focusBorderColor="lime"
+                />
+              </FormControl>
 
               <FormControl>
                 <FormLabel>Image Link</FormLabel>
