@@ -84,7 +84,7 @@ const RenderLessonContent = ({
     }
     if (!subscribed) {
       return (
-        <Center mx="auto" w="100%">
+        <Center py={16} px={[2, 2, 4, 4]} w="100%">
           <Box
             mb={4}
             shadow="base"

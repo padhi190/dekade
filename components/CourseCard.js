@@ -64,7 +64,7 @@ export default function CourseCard(props) {
               {description}
             </Text>
             <Button colorScheme={'green'} textTransform="uppercase" mt={'auto'}>
-              Start
+              Start Course
             </Button>
           </Flex>
         </LinkOverlay>
