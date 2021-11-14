@@ -78,7 +78,7 @@ export default function NavBar() {
   const hideOnMobile = ['none', 'none', 'flex', 'flex'];
   const showOnMobile = ['flex', 'flex', 'none', 'none'];
   const router = useRouter();
-  const hideNav = router.pathname === '/andhan';
+  const hideNav = router.pathname === '/andhanindah';
   return (
     <Box
       bg={useColorModeValue('gray.100', 'gray.900')}
