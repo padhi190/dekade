@@ -128,7 +128,7 @@ export default function EditLesson() {
                 align="center"
               >
                 <Input
-                  type="text"
+                  type="number"
                   {...register('no', { required: true })}
                   placeholder="Lesson No"
                   w="99%"
@@ -215,12 +215,12 @@ export default function EditLesson() {
                 <FormControl>
                   <FormLabel>No</FormLabel>
                   <Input
-                    type="text"
+                    type="number"
                     value={currentLesson?.no || ''}
                     onChange={(e) =>
                       setCurrentLesson({
                         ...currentLesson,
-                        no: e.target.value,
+                        no: parseInt(e.target.value),
                       })
                     }
                     focusBorderColor="lime"

@@ -26,7 +26,7 @@ import { UserContext } from '../lib/context';
 import { auth } from '../lib/firebase';
 
 function SignInButton() {
-  const user = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const render = !user ? (
     <Link href="/signin" passHref>
       <Button colorScheme="orange">Sign In</Button>
@@ -72,7 +72,7 @@ function MobileSignIn({ onClick }) {
   return render;
 }
 export default function NavBar() {
-  const user = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onToggle, onClose } = useDisclosure();
   const hideOnMobile = ['none', 'none', 'flex', 'flex'];

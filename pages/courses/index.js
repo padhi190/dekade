@@ -9,26 +9,11 @@ import {
 import CourseCard from '../../components/CourseCard';
 import Testimony from '../../components/Testimony';
 
-import { getAllCourses } from '../../lib/firebase';
+import { getAllCourses, getAllTestimonies } from '../../lib/firebase';
 
 export async function getStaticProps() {
   const courses = await getAllCourses();
-  const testimonies = [
-    {
-      text: 'Teh Andhan ngejelasinnya masuk akal semua sesuai realita di lapangan, bermanfaat bangettt walaupun kurang puas dengan dibatasi waktu. Semoga tth akang sehat sehat semua aminnn...',
-      author: 'Mia Tresna Handayani',
-      role: 'Mahakarya Organizer',
-      photoUrl:
-        'https://lh3.googleusercontent.com/a-/AOh14GgNuMOWefZkBdGB_8w4WKHoHqqKiPZzscTwPQrmdQ=s96-c',
-    },
-    {
-      text: 'Alhamdulillah teh Andhan selalu punya cara jitu untuk problematika di dunia per Wedding Organizer-an',
-      author: 'Isfihany Fida',
-      role: 'Katineung Wedding Organizer',
-      photoUrl:
-        'https://lh3.googleusercontent.com/a-/AOh14GgNuMOWefZkBdGB_8w4WKHoHqqKiPZzscTwPQrmdQ=s96-c',
-    },
-  ];
+  const testimonies = await getAllTestimonies();
 
   return {
     props: { courses, testimonies },
@@ -49,7 +34,7 @@ export default function Courses(props) {
       bg={useColorModeValue('gray.100', 'gray.900')}
     >
       <Heading fontSize={'2xl'} mb={4}>
-        Watch All Courses
+        Online Courses
       </Heading>
       <Divider
         variant="dashed"
@@ -84,11 +69,10 @@ export default function Courses(props) {
         rowGap={10}
         // justifyItems="center"
         align="center"
-        gridAutoRows="1fr"
         px={[2, 2, 4, 4]}
       >
         {testimonies.map((testimony) => (
-          <Testimony key={testimony.author} testimony={testimony} />
+          <Testimony key={testimony.name} testimony={testimony} />
         ))}
       </Grid>
     </Box>

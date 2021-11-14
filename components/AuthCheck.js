@@ -3,7 +3,7 @@ import { UserContext } from '../lib/context';
 import SignInBox from './SignInBox';
 
 const AuthCheck = ({ children, adminContent = false }) => {
-  const user = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const isAdmin = user?.admin;
   let hasAccess = true;
   if (adminContent) {

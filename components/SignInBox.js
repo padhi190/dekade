@@ -37,7 +37,7 @@ const addToast = (toast, type) => {
 };
 
 const SignInBox = () => {
-  const user = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const toast = useToast();

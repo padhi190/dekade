@@ -1,7 +1,7 @@
 import { Flex, Text, Avatar, Stack, useColorModeValue } from '@chakra-ui/react';
 
 export default function Testimony({ testimony }) {
-  const { text, author, role, photoUrl } = testimony;
+  const { comment, name, role, imgUrl } = testimony;
   return (
     <Flex
       //   maxW={'500px'}
@@ -16,11 +16,11 @@ export default function Testimony({ testimony }) {
       h="100%"
       my={6}
     >
-      <Text textAlign="justify">{text}</Text>
+      <Text textAlign="justify">{comment}</Text>
       <Stack direction="row" alignItems="center" spacing={2}>
-        <Avatar src={photoUrl} />
+        <Avatar name={name} src={imgUrl} />
         <Stack spacing={0} alignItems="flex-start">
-          <Text fontWeight="bold">{author}</Text>
+          <Text fontWeight="bold">{name}</Text>
           <Text fontSize="sm" mt={-2}>
             {role}
           </Text>

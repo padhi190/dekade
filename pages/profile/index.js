@@ -10,7 +10,7 @@ import AuthCheck from '../../components/AuthCheck';
 
 const RenderLoggedInUser = ({ user, courses }) => {
   console.log(user);
-  if (user.subscription || user?.admin) {
+  if (user?.subscription || user?.admin) {
     return (
       <Box pt={20} maxW="1300px" mx="auto" px={[2, 2, 4, 4]} pb={100}>
         <Text>
@@ -46,7 +46,7 @@ const RenderLoggedInUser = ({ user, courses }) => {
 };
 
 export default function ProfilePage() {
-  const user = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [courses, setCourses] = useState(null);
   const [loading, setLoading] = useState(false);
 

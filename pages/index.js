@@ -12,20 +12,23 @@ import {
 } from '@chakra-ui/react';
 import Link from 'next/link';
 import Card from 'card-vibes';
-import { getAllCourses } from '../lib/firebase';
+import { getAllCourses, getAllTestimonies } from '../lib/firebase';
 import CourseCard from '../components/CourseCard';
+import Testimony from '../components/Testimony';
 
 export async function getStaticProps() {
   const courses = await getAllCourses();
+  const testimonies = await getAllTestimonies();
 
   return {
-    props: { courses },
+    props: { courses, testimonies },
     revalidate: 3600,
   };
 }
 
-export default function Home({ courses }) {
-  console.log(courses);
+export default function Home({ courses, testimonies }) {
+  const heroImgUrl =
+    'https://firebasestorage.googleapis.com/v0/b/dekade-training.appspot.com/o/courseimg%2Fhero-img.png?alt=media&token=c0167f68-9e00-41db-8e51-3b3c93b57fe9';
   return (
     <Box
       pt={16}
@@ -97,11 +100,25 @@ export default function Home({ courses }) {
             </Link>
           </Stack>
         </Box>
-        <Card style={{ width: '100%', padding: '10px' }}>
-          <Box>
-            <Image src="wsw1.png" alt="hero-image" fit="contain" />
-          </Box>
-        </Card>
+        <Link href="/courses" passHref>
+          <Card
+            style={{
+              width: '100%',
+              padding: '5px',
+              borderRadius: '20px',
+              border: 'solid 3px white',
+            }}
+          >
+            <Box cursor="pointer">
+              <Image
+                borderRadius={'xl'}
+                src={heroImgUrl}
+                alt="hero-image"
+                fit="contain"
+              />
+            </Box>
+          </Card>
+        </Link>
       </Flex>
       <Heading fontSize={'2xl'} mt={8} mb={4}>
         Latest Courses
@@ -123,6 +140,27 @@ export default function Home({ courses }) {
       >
         {courses.map((course) => (
           <CourseCard key={course.title} course={course} />
+        ))}
+      </Grid>
+
+      <Heading fontSize={'2xl'} mb={4} mt={12}>
+        Testimony
+      </Heading>
+      <Divider
+        variant="dashed"
+        borderColor={useColorModeValue('gray.900', 'gray.100')}
+      />
+      <Grid
+        templateColumns={['1fr', '1fr', 'repeat(2, 1fr)', 'repeat(2, 1fr)']}
+        gap={6}
+        rowGap={10}
+        // justifyItems="center"
+        align="center"
+        px={[2, 2, 4, 4]}
+        mb={100}
+      >
+        {testimonies.map((testimony) => (
+          <Testimony key={testimony.name} testimony={testimony} />
         ))}
       </Grid>
     </Box>
