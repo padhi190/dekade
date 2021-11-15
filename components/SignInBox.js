@@ -87,7 +87,11 @@ const SignInBox = () => {
           colorScheme="orange"
           onClick={async () => {
             try {
-              await signInWithPopup(auth, new GoogleAuthProvider());
+              const provider = new GoogleAuthProvider();
+              provider.setCustomParameters({
+                prompt: 'select_account',
+              });
+              await signInWithPopup(auth, provider);
               addToast(toast, 'success');
             } catch (error) {
               addToast(toast, 'error');
