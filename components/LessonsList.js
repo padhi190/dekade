@@ -25,8 +25,8 @@ export const LessonsList = ({
         bgColor={useColorModeValue('gray.100', 'gray.900')}
         px={[2, 2, 4, 4]}
         pt={4}
-        w={['100%', '100%', '100%', '100%']}
-        h="100vh"
+        w={'100%'}
+        h={{ md: '100vh' }}
         overflowY="scroll"
         css={{
           '&::-webkit-scrollbar': {

@@ -21,11 +21,11 @@ import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 import Link from 'next/link';
-import { FaCheckCircle, FaWhatsapp } from 'react-icons/fa';
 import { UserContext } from '../../lib/context';
 import { getLessons, getCourses } from '../../lib/firebase';
 import SignInBox from '../../components/SignInBox';
 import { LessonsList } from '../../components/LessonsList';
+import PriceBox from '../../components/PriceBox';
 
 const RenderLessonNav = ({ currentLesson, lessons, setCurrentLesson }) => {
   const curIdx = lessons?.findIndex((lesson) => lesson === currentLesson);
@@ -81,81 +81,25 @@ const RenderLessonContent = ({
   if (!currentLesson?.free) {
     if (!user) {
       return (
-        <Box bgColor={bgColor} px={[2, 2, 4, 4]} w="100%" overflow="auto">
+        <Flex
+          bgColor={bgColor}
+          justifyContent="space-around"
+          align="center"
+          px={[2, 2, 4, 4]}
+          pt={8}
+          w="100%"
+          overflow="auto"
+          flexDir={{ base: 'column', md: 'row' }}
+        >
+          <PriceBox course={course} walink={walink} />
           <SignInBox />
-        </Box>
+        </Flex>
       );
     }
     if (!subscribed) {
       return (
-        <Center py={16} px={[2, 2, 4, 4]} w="100%">
-          <Box
-            mb={4}
-            shadow="base"
-            borderWidth="1px"
-            borderColor={bgColor}
-            borderRadius={'xl'}
-            maxW="330px"
-          >
-            <Box position="relative">
-              <Box
-                position="absolute"
-                top="-16px"
-                left="50%"
-                style={{ transform: 'translate(-50%)' }}
-              >
-                <Text
-                  textTransform="uppercase"
-                  bg={'red.300'}
-                  px={3}
-                  py={1}
-                  color={'gray.900'}
-                  fontSize="sm"
-                  fontWeight="600"
-                  rounded="xl"
-                >
-                  PRO ONLY
-                </Text>
-              </Box>
-              <Box py={4} px={12}>
-                <Text fontWeight="500" fontSize="lg" textAlign="center">
-                  {course?.title}
-                </Text>
-              </Box>
-              <VStack bg={bgColor} py={4} borderBottomRadius={'xl'}>
-                <List spacing={3} textAlign="start" px={12}>
-                  <ListItem>
-                    <ListIcon as={FaCheckCircle} color="green.500" />
-                    Full online
-                  </ListItem>
-                  <ListItem>
-                    <ListIcon as={FaCheckCircle} color="green.500" />
-                    Akses seumur hidup
-                  </ListItem>
-                  <ListItem>
-                    <ListIcon as={FaCheckCircle} color="green.500" />
-                    Update materi gratis
-                  </ListItem>
-                  <ListItem>
-                    <ListIcon as={FaCheckCircle} color="green.500" />
-                    Diskon untuk kelas offline
-                  </ListItem>
-                </List>
-                <Box w="80%" pt={7}>
-                  <Link href={walink} passHref>
-                    <Button
-                      w="full"
-                      colorScheme="green"
-                      textTransform="uppercase"
-                      leftIcon={<FaWhatsapp />}
-                    >
-                      Daftar via WA
-                    </Button>
-                  </Link>
-                </Box>
-              </VStack>
-            </Box>
-          </Box>
+        <Center bgColor={bgColor} py={16} px={[2, 2, 4, 4]} w="100%">
+          <PriceBox course={course} walink={walink} />
         </Center>
       );
     }
@@ -167,7 +111,7 @@ const RenderLessonContent = ({
       pt={6}
       pb={12}
       w="100%"
-      h="100vh"
+      h={{ md: '100vh' }}
       overflowY="scroll"
       css={{
         '&::-webkit-scrollbar': {

@@ -57,7 +57,7 @@ const SignInBox = () => {
     }
   };
   return (
-    <Center py={32} px={[2, 2, 4, 4]}>
+    <Center py={[4, 32, 32, 32]} px={5}>
       <Stack spacing={10} bgColor="gray.700" p={8} borderRadius="10px">
         <form onSubmit={(e) => handleSubmit(e)}>
           <Stack spacing={4} align="center">
