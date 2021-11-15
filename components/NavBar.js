@@ -14,7 +14,7 @@ import {
   MenuList,
   MenuItem,
   Slide,
-  Collapse,
+  useToast,
 } from '@chakra-ui/react';
 
 import { CloseIcon, HamburgerIcon, MoonIcon, SunIcon } from '@chakra-ui/icons';
@@ -27,6 +27,17 @@ import { auth } from '../lib/firebase';
 
 function SignInButton() {
   const { user } = useContext(UserContext);
+  const toast = useToast();
+  const handleSignOut = async () => {
+    await signOut(auth);
+    toast({
+      duration: 3000,
+      isClosable: true,
+      position: 'top',
+      title: 'Logout berhasil',
+      status: 'warning',
+    });
+  };
   const render = !user ? (
     <Link href="/signin" passHref>
       <Button colorScheme="orange">Sign In</Button>
@@ -40,7 +51,7 @@ function SignInButton() {
         <Link href="/profile" passHref>
           <MenuItem>Profile</MenuItem>
         </Link>
-        <MenuItem onClick={() => signOut(auth)}>SignOut</MenuItem>
+        <MenuItem onClick={handleSignOut}>SignOut</MenuItem>
       </MenuList>
     </Menu>
   );
