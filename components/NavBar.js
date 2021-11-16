@@ -114,8 +114,12 @@ export default function NavBar() {
           onClick={onToggle}
         />
         <Link href="/" passHref>
-          <Box as={Button} variant={'link'} display={hideOnMobile}>
-            <Image src="/logo.png" alt="logo" width={120} />
+          <Box as={Button} variant={'link'}>
+            <Image
+              src="/logo.png"
+              alt="logo"
+              width={{ base: '100px', md: 120 }}
+            />
           </Box>
         </Link>
 

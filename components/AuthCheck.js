@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import { Flex } from '@chakra-ui/react';
 import { UserContext } from '../lib/context';
 import SignInBox from './SignInBox';
 
@@ -19,7 +20,9 @@ const AuthCheck = ({ children, adminContent = false }) => {
       children
     )
   ) : (
-    <SignInBox />
+    <Flex justifyContent="center" alignItems="center" h="100vh">
+      <SignInBox />
+    </Flex>
   );
 };
 
