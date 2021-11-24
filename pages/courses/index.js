@@ -28,7 +28,7 @@ export default function Courses(props) {
     <Box
       pt={20}
       maxW="1300px"
-      px={[2, 2, 4, 4]}
+      px={4}
       pb={100}
       mx="auto"
       bg={useColorModeValue('gray.100', 'gray.900')}
